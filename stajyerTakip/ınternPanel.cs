@@ -56,8 +56,6 @@ namespace stajyerTakip
                     .Select(t => new { t.TaskName, t.TaskStatus, taskDescription = dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskDescription, dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskEndDate })
                     .ToList();
 
-                    taskDataGridView.Rows.Add(false);
-
                 }
 
 

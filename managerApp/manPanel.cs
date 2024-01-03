@@ -12,6 +12,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using stajyerTakip;
 
 namespace managerApp
 {
@@ -329,7 +331,6 @@ namespace managerApp
             removeTaskcomboBox.DataSource = assingTask;
 
             atanmısGorevDataGridView.DataSource = dbContext.internTasks.ToList();
-
         }
 
         private void görevDurumlarınıGörToolStripMenuItem_Click(object sender, EventArgs e)
@@ -343,59 +344,68 @@ namespace managerApp
             stajyerSecComboBox.DisplayMember = "InternName";
             stajyerSecComboBox.ValueMember = "ID";
             stajyerSecComboBox.DataSource = uniqueInternNames;
-
-
-
         }
-
         private void goreviGoruntule_Click(object sender, EventArgs e)
         {
-            //var selectedInternTask = (internTask)stajyerSecComboBox.SelectedItem;
-            //gorevleriGorDataGridView.DataSource = selectedInternTask;
-            //foreach (int a as stajyer)
-            //{
-            //if ()
-            //gorevleriGorDataGridView.DataSource = new List<internTask> { selectedInternTask };
-
-            //}
-
             string selectedInternName = stajyerSecComboBox.SelectedItem.ToString(); // ComboBox'tan stajyer adını al
 
             var selectedIntern = dbContext.internTasks.FirstOrDefault(task => task.InternName == selectedInternName); // Seçilen stajyerin ID'sini al
 
-            // ComboBox'ta seçilen stajyerin görevlerini tüm veritabanından çek
-            var selectedInternTasks = dbContext.internTasks.Where(task => task.InternID == selectedIntern.ID).ToList();
-
-            // Aynı stajyerin görevlerini daha önce gösterip göstermediğimizi kontrol etmek için bir bayrak kullanalım
-            bool stajyerGosterildi = false;
-
-            foreach (var task in selectedInternTasks)
+            if (selectedIntern != null)
             {
-                if (!stajyerGosterildi)
-                {
-                    // Stajyer daha önce gösterilmediyse görevleri göster
-                   // gorevleriGorDataGridView.DataSource = selectedInternTasks.Where(t => t.InternID == selectedIntern.ID).ToList();
+                // ComboBox'ta seçilen stajyerin görevlerini tüm veritabanından çek
+                var selectedInternTasks = dbContext.internTasks.Where(task => task.InternID == selectedIntern.ID).ToList();
 
-                    //gorevleriGorDataGridView.DataSource = selectedInternTasks
-                     //.Where(t => t.InternID == selectedIntern.ID)
-                     //.Select(t => new { t.InternName, t.TaskName,t.TaskStatus/* Diğer sütunlar buraya gelecek */ })
-                     //.ToList();
-
-                    gorevleriGorDataGridView.DataSource = selectedInternTasks
-                     .Where(t => t.InternID == selectedIntern.ID)
-                     .Select(t => new { t.InternName, t.TaskName, t.TaskStatus, taskDescription = dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskDescription, TaskEndDate = dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskEndDate })
-                     .ToList();
-
-
-                    stajyerGosterildi = true;
-                }
-                else
-                {
-                    // Stajyer zaten gösterildiyse DataGridView'e yeni bir veri kaynağı atamayın
-                    break;
-                }
+                gorevleriGorDataGridView.DataSource = selectedInternTasks
+                    .Select(t => new { t.InternName, t.TaskName, t.TaskStatus, taskDescription = dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskDescription, dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskEndDate })
+                    .ToList();
             }
+        }
 
+        private void dosyalarVeNotlarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            filePanel.BringToFront();
+
+            var interns = dbContext.interns.Distinct().ToList();
+
+            internFileComboBox.DisplayMember = "Name";
+            internFileComboBox.ValueMember = "ID";
+            internFileComboBox.DataSource = interns;
+            
+        }
+
+        private void viewFileButton_Click(object sender, EventArgs e)
+        {
+            int selectedInternId = Convert.ToInt32(internFileComboBox.SelectedValue); // ComboBox dan seçilen stajyerin ID sini alır
+
+            MessageBox.Show(selectedInternId.ToString());
+
+            var getInternFile = dbContext.dailyFiles.FirstOrDefault(task => task.whoId == selectedInternId);
+
+            //int fileID = getInternFile.ID; // İndirmek istediğiniz dosyanın ID'si
+
+            //var file = dbContext.dailyFiles.FirstOrDefault(f => f.ID == fileID); // Dosyayı ID'ye göre alın
+
+            //if (file != null)
+            //{
+            //    byte[] fileData = file.data; // Dosya verisini byte[] olarak alın
+
+            //    // fileData byte[]'ını kullanarak dosyayı işleyin (örneğin, diske yazabilirsiniz)
+            //    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            //    saveFileDialog1.Filter = "All files (*.*)|*.*"; // Filtre olarak tüm dosya türlerini kullanın
+            //    saveFileDialog1.FilterIndex = 1; // İlk filtreyi varsayılan olarak ayarla
+
+            //    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            //    {
+            //        // Kullanıcının seçtiği dosya yolu
+            //        string filePath = saveFileDialog1.FileName;
+
+            //        // Dosyayı diske yaz
+            //        File.WriteAllBytes(filePath, fileData);
+
+            //        MessageBox.Show("Dosya indirme başarılı!");
+            //    }
+            //}
         }
     }
 }

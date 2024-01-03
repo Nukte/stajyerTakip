@@ -105,6 +105,15 @@
             this.stajyerSecComboBox = new System.Windows.Forms.ComboBox();
             this.gorevleriGorDataGridView = new System.Windows.Forms.DataGridView();
             this.label20 = new System.Windows.Forms.Label();
+            this.filePanel = new System.Windows.Forms.Panel();
+            this.downloadButton = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.fileDataGridView = new System.Windows.Forms.DataGridView();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.viewFileButton = new System.Windows.Forms.Button();
+            this.internFileComboBox = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
             yenileButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.stajyerBilgiGorPanel.SuspendLayout();
@@ -120,6 +129,10 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gorevleriGorDataGridView)).BeginInit();
+            this.filePanel.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fileDataGridView)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // yenileButton
@@ -196,6 +209,7 @@
             this.dosyalarVeNotlarToolStripMenuItem.Name = "dosyalarVeNotlarToolStripMenuItem";
             this.dosyalarVeNotlarToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
             this.dosyalarVeNotlarToolStripMenuItem.Text = "Dosyalar Ve Notlar";
+            this.dosyalarVeNotlarToolStripMenuItem.Click += new System.EventHandler(this.dosyalarVeNotlarToolStripMenuItem_Click);
             // 
             // stajyerBilgiGorPanel
             // 
@@ -882,11 +896,101 @@
             this.label20.TabIndex = 2;
             this.label20.Text = "Stajyer Görev Görüntüleme Sayfası";
             // 
+            // filePanel
+            // 
+            this.filePanel.Controls.Add(this.downloadButton);
+            this.filePanel.Controls.Add(this.groupBox5);
+            this.filePanel.Controls.Add(this.groupBox6);
+            this.filePanel.Controls.Add(this.label23);
+            this.filePanel.Location = new System.Drawing.Point(0, 45);
+            this.filePanel.Name = "filePanel";
+            this.filePanel.Size = new System.Drawing.Size(930, 503);
+            this.filePanel.TabIndex = 29;
+            // 
+            // downloadButton
+            // 
+            this.downloadButton.Location = new System.Drawing.Point(781, 140);
+            this.downloadButton.Name = "downloadButton";
+            this.downloadButton.Size = new System.Drawing.Size(138, 48);
+            this.downloadButton.TabIndex = 42;
+            this.downloadButton.Text = "İndir";
+            this.downloadButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.fileDataGridView);
+            this.groupBox5.Location = new System.Drawing.Point(7, 31);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(636, 255);
+            this.groupBox5.TabIndex = 44;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Dosyalar";
+            // 
+            // fileDataGridView
+            // 
+            this.fileDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.fileDataGridView.Location = new System.Drawing.Point(6, 15);
+            this.fileDataGridView.Name = "fileDataGridView";
+            this.fileDataGridView.Size = new System.Drawing.Size(624, 234);
+            this.fileDataGridView.TabIndex = 0;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label24);
+            this.groupBox6.Controls.Add(this.viewFileButton);
+            this.groupBox6.Controls.Add(this.internFileComboBox);
+            this.groupBox6.Location = new System.Drawing.Point(649, 31);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(276, 103);
+            this.groupBox6.TabIndex = 43;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Görülecek Stajyer";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label24.Location = new System.Drawing.Point(6, 23);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(101, 16);
+            this.label24.TabIndex = 40;
+            this.label24.Text = "Stajyer Seçiniz :";
+            // 
+            // viewFileButton
+            // 
+            this.viewFileButton.Location = new System.Drawing.Point(113, 48);
+            this.viewFileButton.Name = "viewFileButton";
+            this.viewFileButton.Size = new System.Drawing.Size(157, 48);
+            this.viewFileButton.TabIndex = 41;
+            this.viewFileButton.Text = "Görütüle";
+            this.viewFileButton.UseVisualStyleBackColor = true;
+            this.viewFileButton.Click += new System.EventHandler(this.viewFileButton_Click);
+            // 
+            // internFileComboBox
+            // 
+            this.internFileComboBox.FormattingEnabled = true;
+            this.internFileComboBox.Location = new System.Drawing.Point(113, 21);
+            this.internFileComboBox.Name = "internFileComboBox";
+            this.internFileComboBox.Size = new System.Drawing.Size(157, 21);
+            this.internFileComboBox.TabIndex = 39;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label23.ForeColor = System.Drawing.Color.Black;
+            this.label23.Location = new System.Drawing.Point(3, 5);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(232, 20);
+            this.label23.TabIndex = 3;
+            this.label23.Text = "Dosya ve Notlar Sayfası Sayfası";
+            // 
             // manPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(928, 548);
+            this.Controls.Add(this.filePanel);
             this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.taskPanel);
             this.Controls.Add(this.stajyerBilgiDuzenlePanel);
@@ -918,6 +1022,12 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gorevleriGorDataGridView)).EndInit();
+            this.filePanel.ResumeLayout(false);
+            this.filePanel.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fileDataGridView)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1001,5 +1111,14 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Panel filePanel;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button viewFileButton;
+        private System.Windows.Forms.ComboBox internFileComboBox;
+        private System.Windows.Forms.DataGridView fileDataGridView;
+        private System.Windows.Forms.Button downloadButton;
     }
 }
