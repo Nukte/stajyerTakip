@@ -19,5 +19,6 @@ namespace managerApp
         public DbSet<internTask> internTasks { get; set; }
         public DbSet<task> tasks { get; set; }
 
+
     }
 }
