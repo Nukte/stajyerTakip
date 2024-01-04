@@ -65,6 +65,7 @@
             this.filePanel.Name = "filePanel";
             this.filePanel.Size = new System.Drawing.Size(252, 45);
             this.filePanel.TabIndex = 4;
+            this.filePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.filePanel_Paint);
             // 
             // label1
             // 

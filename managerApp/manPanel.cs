@@ -348,13 +348,12 @@ namespace managerApp
         private void goreviGoruntule_Click(object sender, EventArgs e)
         {
             string selectedInternName = stajyerSecComboBox.SelectedItem.ToString(); // ComboBox'tan stajyer adını al
-
-            var selectedIntern = dbContext.internTasks.FirstOrDefault(task => task.InternName == selectedInternName); // Seçilen stajyerin ID'sini al
-
+            intern selectedIntern = dbContext.interns.FirstOrDefault(gint => gint.Name == selectedInternName); // Seçilen stajyerin ID'sini al
+            int selectedInternID = selectedIntern.ID;
             if (selectedIntern != null)
             {
-                // ComboBox'ta seçilen stajyerin görevlerini tüm veritabanından çek
-                var selectedInternTasks = dbContext.internTasks.Where(task => task.InternID == selectedIntern.ID).ToList();
+                // ComboBox'ta seçilen stajyerin görevlerini veritabanından çek
+                var selectedInternTasks = dbContext.internTasks.Where(task => task.InternID == selectedInternID).ToList();
 
                 gorevleriGorDataGridView.DataSource = selectedInternTasks
                     .Select(t => new { t.InternName, t.TaskName, t.TaskStatus, taskDescription = dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskDescription, dbContext.tasks.FirstOrDefault(td => td.ID == t.ID)?.TaskEndDate })
@@ -366,46 +365,148 @@ namespace managerApp
         {
             filePanel.BringToFront();
 
-            var interns = dbContext.interns.Distinct().ToList();
+            var interns = dbContext.interns.ToList();
+
+            var uniqueInternNames = dbContext.interns.Select(intern => intern.Name).Distinct().ToList();
 
             internFileComboBox.DisplayMember = "Name";
             internFileComboBox.ValueMember = "ID";
-            internFileComboBox.DataSource = interns;
+            internFileComboBox.DataSource = uniqueInternNames;
             
         }
 
         private void viewFileButton_Click(object sender, EventArgs e)
         {
-            int selectedInternId = Convert.ToInt32(internFileComboBox.SelectedValue); // ComboBox dan seçilen stajyerin ID sini alır
+            string selectIntern = internFileComboBox.SelectedItem?.ToString(); // ComboBox'tan seçili olanın null olma ihtimaline karşı ?. 
+            var getInternId = dbContext.interns.FirstOrDefault(gint => gint.Name == selectIntern);
 
-            MessageBox.Show(selectedInternId.ToString());
+            if (getInternId != null)
+            {
+                int selectedInternID = getInternId.ID;
 
-            var getInternFile = dbContext.dailyFiles.FirstOrDefault(task => task.whoId == selectedInternId);
+                var getInternFile = dbContext.dailyFiles.FirstOrDefault(task => task.whoId == selectedInternID);
+                if (getInternFile != null)
+                {
+                   // List<dailyFile> fileList = new List<dailyFile> { getInternFile };
+                    var files = dbContext.dailyFiles.Where(f => f.whoId == selectedInternID).ToList();
 
-            //int fileID = getInternFile.ID; // İndirmek istediğiniz dosyanın ID'si
+                    fileDataGridView.DataSource = files
+                        .Select(f => new { f.fileName, f.description,who = dbContext.interns.FirstOrDefault(td => td.ID == f.whoId)?.Name})
+                    .ToList();
 
-            //var file = dbContext.dailyFiles.FirstOrDefault(f => f.ID == fileID); // Dosyayı ID'ye göre alın
+                    fileDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Tüm sütunları hücre içeriğine göre ayarlar
 
-            //if (file != null)
-            //{
-            //    byte[] fileData = file.data; // Dosya verisini byte[] olarak alın
 
-            //    // fileData byte[]'ını kullanarak dosyayı işleyin (örneğin, diske yazabilirsiniz)
-            //    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            //    saveFileDialog1.Filter = "All files (*.*)|*.*"; // Filtre olarak tüm dosya türlerini kullanın
-            //    saveFileDialog1.FilterIndex = 1; // İlk filtreyi varsayılan olarak ayarla
+                }
+                else
+                {
+                    MessageBox.Show("bir hata oluştu");
+                }
+            }
+            else
+            {
+                 MessageBox.Show("Stajyer bulunamadı");
+            }
 
-            //    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            //    {
-            //        // Kullanıcının seçtiği dosya yolu
-            //        string filePath = saveFileDialog1.FileName;
 
-            //        // Dosyayı diske yaz
-            //        File.WriteAllBytes(filePath, fileData);
 
-            //        MessageBox.Show("Dosya indirme başarılı!");
-            //    }
-            //}
+
+           
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void downloadButton_Click(object sender, EventArgs e)
+        {
+
+            var getFileName = fileDataGridView.CurrentRow.Cells["fileName"].Value;
+
+            var downFile = dbContext.dailyFiles.FirstOrDefault(f => f.fileName == getFileName.ToString());
+            string fileName = downFile.fileName; // Dosya adını alın
+            string fileExtension = Path.GetExtension(fileName);
+            MessageBox.Show($"Dosyanın uzantısı: {fileExtension}");
+
+            MessageBox.Show(downFile.ID.ToString());
+
+
+            int fileID = downFile.ID; // İndirmek istediğiniz dosyanın ID'si
+
+            var file = dbContext.dailyFiles.FirstOrDefault(f => f.ID == fileID); // Dosyayı ID'ye göre alın
+
+            if (file != null)
+            {
+                byte[] fileData = file.data; // Dosya verisini byte[] olarak alın
+
+                // fileData byte[]'ını kullanarak dosyayı işleyin (örneğin, diske yazabilirsiniz)
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "All files (*.*)|*.*"; // Filtre olarak tüm dosya türlerini kullan
+                saveFileDialog1.FilterIndex = 1; // İlk filtreyi varsayılan olarak ayarla
+                saveFileDialog1.DefaultExt = fileExtension;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    // Kullanıcının seçtiği dosya yolu
+                    string filePath = saveFileDialog1.FileName;
+
+                    // Dosyayı diske yaz
+                    File.WriteAllBytes(filePath, fileData);
+
+                    MessageBox.Show("Dosya indirme başarılı!");
+                }
+            }
+        }
+
+        private void fileDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            fileIdLabel = 
+        }
+
+        private void internFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectIntern = internFileComboBox.SelectedItem?.ToString(); // ComboBox'tan seçili olanın null olma ihtimaline karşı ?. 
+            var getInternId = dbContext.interns.FirstOrDefault(gint => gint.Name == selectIntern);
+
+            if (getInternId != null)
+            {
+                int selectedInternID = getInternId.ID;
+
+                var getInternFile = dbContext.dailyFiles.FirstOrDefault(task => task.whoId == selectedInternID);
+                if (getInternFile != null)
+                {
+                    // List<dailyFile> fileList = new List<dailyFile> { getInternFile };
+                    var files = dbContext.dailyFiles.Where(f => f.whoId == selectedInternID).ToList();
+
+                    fileDataGridView.DataSource = files
+                        .Select(f => new { f.fileName, f.description, who = dbContext.interns.FirstOrDefault(td => td.ID == f.whoId)?.Name })
+                    .ToList();
+
+                    fileDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Tüm sütunları hücre içeriğine göre ayarlar
+
+
+                }
+                else
+                {
+                    MessageBox.Show("bir hata oluştu");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Stajyer bulunamadı");
+            }
+        }
+
+        private void fileDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var getFileName = fileDataGridView.CurrentRow.Cells["fileName"].Value;
+
+            var downFile = dbContext.dailyFiles.FirstOrDefault(f => f.fileName == getFileName.ToString());
+
+
+            string fileName = downFile.fileName; // Dosya adını alın
+            string fileExtension = Path.GetExtension(fileName);
+            MessageBox.Show($"Dosyanın uzantısı: {fileExtension}");
         }
     }
 }

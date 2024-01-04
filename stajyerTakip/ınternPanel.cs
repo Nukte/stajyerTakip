@@ -155,5 +155,9 @@ namespace stajyerTakip
 
         }
 
+        private void filePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
