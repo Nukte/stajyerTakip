@@ -103,6 +103,8 @@
             this.gorevleriGorDataGridView = new System.Windows.Forms.DataGridView();
             this.label20 = new System.Windows.Forms.Label();
             this.filePanel = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.fileIdLabel = new System.Windows.Forms.Label();
             this.downloadButton = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.fileDataGridView = new System.Windows.Forms.DataGridView();
@@ -111,9 +113,7 @@
             this.viewFileButton = new System.Windows.Forms.Button();
             this.internFileComboBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.fileIdLabel = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.label26 = new System.Windows.Forms.Label();
             yenileButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.stajyerBilgiGorPanel.SuspendLayout();
@@ -799,6 +799,7 @@
             this.taskViewPanel.Name = "taskViewPanel";
             this.taskViewPanel.Size = new System.Drawing.Size(928, 503);
             this.taskViewPanel.TabIndex = 28;
+            this.taskViewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.taskViewPanel_Paint);
             // 
             // groupBox3
             // 
@@ -871,6 +872,25 @@
             this.filePanel.Name = "filePanel";
             this.filePanel.Size = new System.Drawing.Size(930, 503);
             this.filePanel.TabIndex = 29;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.ForeColor = System.Drawing.Color.DimGray;
+            this.label26.Location = new System.Drawing.Point(652, 138);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(173, 13);
+            this.label26.TabIndex = 46;
+            this.label26.Text = "Tablodan çift tıklayıp indirebilirsiniz..";
+            // 
+            // fileIdLabel
+            // 
+            this.fileIdLabel.AutoSize = true;
+            this.fileIdLabel.Location = new System.Drawing.Point(654, 157);
+            this.fileIdLabel.Name = "fileIdLabel";
+            this.fileIdLabel.Size = new System.Drawing.Size(102, 13);
+            this.fileIdLabel.TabIndex = 45;
+            this.fileIdLabel.Text = "İndirilicek dosya ID :";
             // 
             // downloadButton
             // 
@@ -953,25 +973,6 @@
             this.label23.Size = new System.Drawing.Size(232, 20);
             this.label23.TabIndex = 3;
             this.label23.Text = "Dosya ve Notlar Sayfası Sayfası";
-            // 
-            // fileIdLabel
-            // 
-            this.fileIdLabel.AutoSize = true;
-            this.fileIdLabel.Location = new System.Drawing.Point(654, 157);
-            this.fileIdLabel.Name = "fileIdLabel";
-            this.fileIdLabel.Size = new System.Drawing.Size(102, 13);
-            this.fileIdLabel.TabIndex = 45;
-            this.fileIdLabel.Text = "İndirilicek dosya ID :";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.ForeColor = System.Drawing.Color.DimGray;
-            this.label26.Location = new System.Drawing.Point(652, 138);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(173, 13);
-            this.label26.TabIndex = 46;
-            this.label26.Text = "Tablodan çift tıklayıp indirebilirsiniz..";
             // 
             // manPanel
             // 

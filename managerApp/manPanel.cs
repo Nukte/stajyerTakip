@@ -508,5 +508,10 @@ namespace managerApp
             string fileExtension = Path.GetExtension(fileName);
             MessageBox.Show($"Dosyanın uzantısı: {fileExtension}");
         }
+
+        private void taskViewPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
